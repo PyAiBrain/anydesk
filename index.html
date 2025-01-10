@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnyDesk Address Book</title>
+    <style>
+        :root {
+            --primary-bg: #ffffff;
+            --primary-text: #000000;
+            --secondary-color: #00b300;
+        }
+
+        [data-theme="dark"] {
+            --primary-bg: #000000;
+            --primary-text: #ffffff;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            background: var(--primary-text);
+            color: var(--primary-bg);
+            border: none;
+            border-radius: 5px;
+        }
+
+        .search-bar {
+            margin: 1rem;
+            text-align: center;
+        }
+
+        .search-bar input {
+            padding: 0.5rem;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        .address-list {
+            margin: 1rem;
+        }
+
+        .address-entry {
+            border: 1px solid var(--secondary-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .add-entry {
+            margin: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        .add-entry input, .add-entry button {
+            display: block;
+            width: calc(100% - 2rem);
+            margin: 0.5rem auto;
+            padding: 0.5rem;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        .add-entry button {
+            background-color: var(--secondary-color);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .search-bar input {
+                width: 90%;
+            }
+
+            .add-entry input, .add-entry button {
+                width: calc(100% - 1rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AnyDesk Address Book</h1>
+        <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
+    </header>
+
+    <div class="search-bar">
+        <input type="text" id="searchBar" placeholder="Search for AnyDesk IDs..." oninput="filterEntries()">
+    </div>
+
+    <div class="address-list" id="addressList">
+        <!-- Dynamic Entries will be loaded here -->
+    </div>
+
+    <div class="add-entry">
+        <input type="text" id="addName" placeholder="Name">
+        <input type="text" id="addID" placeholder="AnyDesk ID">
+        <button onclick="addEntry()">Add Entry</button>
+    </div>
+
+    <script>
+        const addressData = [
+            { name: "John Doe", id: "123-456-789" },
+            { name: "Jane Smith", id: "987-654-321" }
+        ];
+
+        const addressList = document.getElementById('addressList');
+
+        function renderEntries() {
+            addressList.innerHTML = '';
+            addressData.forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'address-entry';
+                div.innerHTML = `<strong>${entry.name}</strong><br>ID: ${entry.id}`;
+                addressList.appendChild(div);
+            });
+        }
+
+        function filterEntries() {
+            const searchValue = document.getElementById('searchBar').value.toLowerCase();
+            const filteredData = addressData.filter(entry =>
+                entry.name.toLowerCase().includes(searchValue) || entry.id.includes(searchValue)
+            );
+
+            addressList.innerHTML = '';
+            filteredData.forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'address-entry';
+                div.innerHTML = `<strong>${entry.name}</strong><br>ID: ${entry.id}`;
+                addressList.appendChild(div);
+            });
+        }
+
+        function addEntry() {
+            const name = document.getElementById('addName').value;
+            const id = document.getElementById('addID').value;
+
+            if (name && id) {
+                addressData.push({ name, id });
+                renderEntries();
+            } else {
+                alert('Please provide both a name and an ID.');
+            }
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark';
+        });
+
+        renderEntries();
+    </script>
+</body>
+</html>
