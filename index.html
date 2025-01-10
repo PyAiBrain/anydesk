@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,17 +116,18 @@
     <div class="address-list" id="addressList">
         <!-- Dynamic Entries will be loaded here -->
     </div>
-
+<!--
     <div class="add-entry">
         <input type="text" id="addName" placeholder="Name">
         <input type="text" id="addID" placeholder="AnyDesk ID">
         <button onclick="addEntry()">Add Entry</button>
     </div>
-
+-->
     <script>
         const addressData = [
-            { name: "John Doe", id: "123-456-789" },
-            { name: "Jane Smith", id: "987-654-321" }
+            { name: "Alexander Schwarz", id: "1 370 052 938" },
+            { name: "Paul Lange", id: "1 875 316 796" },
+            { name: "Ludiwg ...", id: "1 215 858 761"}
         ];
 
         const addressList = document.getElementById('addressList');
@@ -171,6 +172,12 @@
         document.getElementById('themeToggle').addEventListener('click', () => {
             document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark';
         });
+
+        document.getElementById('html').addEventListener('load', () => {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark'
+        });
+
+        
 
         renderEntries();
     </script>
